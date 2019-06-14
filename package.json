@@ -9,7 +9,6 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "start": "node index.js",
     "test": "npm run lint"
   },
   "keywords": [
@@ -24,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "big-integer": "^1.6.44",
+    "commander": "^2.20.0",
     "csv-parser": "^2.3.0",
     "lodash": "^4.17.11"
   },
