@@ -30,7 +30,7 @@ const passesFilters = (record, filters) =>
   _.every(filters, (filter) => filter.filterFn(record, filter.info, filter.values));
 
 const processData = (filename, filters, calculations, language) => {
-  fs.createReadStream(filename)
+  fs.createReadStream(filename, { encoding: 'latin1' })
     .pipe(csv({ separator: ';' }))
     .on('data', (record) => {
       count += 1;
