@@ -11,13 +11,31 @@ module.exports = class Proportions {
     return `${percentage.toFixed(decimalCount)} %`;
   }
 
-  static renderProportion(row, index, indexCount) {
-    const indentation = indexCount < 10 || index >= 9 ? '' : ' ';
-    return `${indentation}${index + 1}. ${row.label.padEnd(20)} ${row.percentage.padStart(7)} (${row.count})`;
+  static renderProportion(proportion, ordinal, ordinalCount) {
+    const indentation = _.repeat(' ', ordinalCount.toString().length - ordinal.toString().length);
+    return `${indentation}${ordinal}. ${proportion.label.padEnd(20)} ${proportion.percentage.padStart(7)} (${
+      proportion.count
+    })`;
   }
 
   static renderEmptyResults(info) {
     console.log(`No cars matched the filters, cannot show ${info.name} information.`);
+  }
+
+  getProportions(keys, totalWithValue, labelFn) {
+    return keys.map((key) => ({
+      label: labelFn(key),
+      count: this.countsByValue[key] || 0,
+      percentage: Proportions.renderPercentage(this.countsByValue[key] || 0, totalWithValue),
+    }));
+  }
+
+  getProportionsByLabels(valueLabels, totalWithValue, language) {
+    return this.getProportions(_.keys(valueLabels), totalWithValue, (key) => valueLabels[key][language]);
+  }
+
+  getProportionsByValues(totalWithValue) {
+    return this.getProportions(_.keys(this.countsByValue), totalWithValue, _.identity);
   }
 
   renderNonEmptyResults(info, language) {
@@ -30,16 +48,10 @@ module.exports = class Proportions {
       .values()
       .sum()
       .value();
-    const proportions = _.chain(info.valueLabels)
-      .keys()
-      .map((key) => ({
-        label: info.valueLabels[key][language],
-        count: this.countsByValue[key] || 0,
-        percentage: Proportions.renderPercentage(this.countsByValue[key] || 0, totalWithValue),
-      }))
-      .sortBy('count')
-      .reverse()
-      .value();
+
+    const proportions = info.valueLabels
+      ? this.getProportionsByLabels(info.valueLabels, totalWithValue, language)
+      : this.getProportionsByValues(totalWithValue);
 
     console.log(
       `Cars with a known ${info.name}: ${totalWithValue}/${total} (${Proportions.renderPercentage(
@@ -48,7 +60,13 @@ module.exports = class Proportions {
       )}).`
     );
     console.log(`Proportions for ${info.name}:`);
-    proportions.forEach((proportion, index) => console.log(Proportions.renderProportion(proportion, index)));
+    _.chain(proportions)
+      .sortBy('count')
+      .reverse()
+      .forEach((proportion, index) =>
+        console.log(Proportions.renderProportion(proportion, index + 1, proportions.length))
+      )
+      .value();
   }
 
   processRecord(value) {

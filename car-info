@@ -10,6 +10,7 @@ const Proportions = require('./calculators/Proportions');
 
 const enumFilter = require('./filters/enumFilter');
 
+const brand = require('./info/brand');
 const color = require('./info/color');
 const co2 = require('./info/co2');
 const length = require('./info/length');
@@ -56,6 +57,7 @@ const calculations = [
   { calculator: new Tendencies(), info: width },
   { calculator: new Tendencies(), info: co2 },
   { calculator: new Proportions(), info: powerSource },
+  { calculator: new Proportions(), info: brand },
 ];
 
 const validateOptions = (cmd) => {
