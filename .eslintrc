@@ -16,6 +16,7 @@
     "implicit-arrow-linebreak": "off",
     "indent": "off",
     "max-len": ["error", 120],
-    "no-console": "off"
+    "no-console": "off",
+    "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }]
   }
 }
