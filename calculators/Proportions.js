@@ -71,9 +71,7 @@ module.exports = class Proportions {
   }
 
   processRecord(value) {
-    if (value) {
-      this.countsByValue[value] = this.countsByValue[value] ? this.countsByValue[value] + 1 : 1;
-    }
+    this.countsByValue[value] = this.countsByValue[value] ? this.countsByValue[value] + 1 : 1;
   }
 
   processResults(info, normalizer, language) {

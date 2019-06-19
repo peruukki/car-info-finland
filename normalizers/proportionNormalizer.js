@@ -25,7 +25,6 @@ module.exports = {
 
         // Ignore unknown values
         if (proportion.label === '') {
-          console.log('Unknown label', proportion);
           return null;
         }
 
