@@ -17,61 +17,72 @@ module.exports = class Proportions {
     console.log(`No cars matched the filters, cannot show ${info.name} information.`);
   }
 
-  getProportions(keys, totalWithValue, labelFn) {
+  static getProportions(keys, countsByValue, totalWithValue, labelFn) {
     return keys.map((key) => ({
       label: labelFn(key),
-      count: this.countsByValue[key] || 0,
-      percentage: utils.renderPercentage(this.countsByValue[key] || 0, totalWithValue),
+      count: countsByValue[key] || 0,
+      percentage: utils.renderPercentage(countsByValue[key] || 0, totalWithValue),
     }));
   }
 
-  getProportionsByLabels(valueLabels, totalWithValue, language) {
-    return this.getProportions(_.keys(valueLabels), totalWithValue, (key) => valueLabels[key][language]);
+  static getProportionsByLabels(valueLabels, countsByValue, totalWithValue, language) {
+    return Proportions.getProportions(
+      _.keys(valueLabels),
+      countsByValue,
+      totalWithValue,
+      (key) => valueLabels[key][language]
+    );
   }
 
-  getProportionsByValues(totalWithValue) {
-    return this.getProportions(_.keys(this.countsByValue), totalWithValue, _.identity);
+  static getProportionsByValues(countsByValue, totalWithValue) {
+    return Proportions.getProportions(_.keys(countsByValue), countsByValue, totalWithValue, _.identity);
   }
 
-  renderNonEmptyResults(info, language) {
-    const total = _.chain(this.countsByValue)
+  static renderNonEmptyResults(info, countsByValue, normalizer, language) {
+    const total = _.chain(countsByValue)
       .values()
       .sum()
       .value();
-    const totalWithValue = _.chain(this.countsByValue)
+    const totalWithValue = _.chain(countsByValue)
       .omit('')
       .values()
       .sum()
       .value();
 
-    const proportions = info.valueLabels
-      ? this.getProportionsByLabels(info.valueLabels, totalWithValue, language)
-      : this.getProportionsByValues(totalWithValue);
+    const proportions = _.chain(
+      info.valueLabels
+        ? Proportions.getProportionsByLabels(info.valueLabels, countsByValue, totalWithValue, language)
+        : Proportions.getProportionsByValues(countsByValue, totalWithValue)
+    )
+      .sortBy('count')
+      .reverse()
+      .value();
 
     console.log(
       `Cars with a known ${info.name}: ${totalWithValue}/${total} (${utils.renderPercentage(totalWithValue, total)}).`
     );
     console.log(`Proportions for ${info.name}:`);
-    _.chain(proportions)
-      .sortBy('count')
-      .reverse()
-      .forEach((proportion, index) =>
-        console.log(Proportions.renderProportion(proportion, index + 1, proportions.length))
-      )
-      .value();
+    const normalizedProportions = normalizer
+      ? normalizer.normalize(proportions, totalWithValue, info.normalizer)
+      : proportions;
+    normalizedProportions.forEach((proportion, index) =>
+      console.log(Proportions.renderProportion(proportion, index + 1, proportions.length))
+    );
   }
 
   processRecord(value) {
-    this.countsByValue[value] = this.countsByValue[value] ? this.countsByValue[value] + 1 : 1;
+    if (value) {
+      this.countsByValue[value] = this.countsByValue[value] ? this.countsByValue[value] + 1 : 1;
+    }
   }
 
-  processResults(info, language) {
+  processResults(info, normalizer, language) {
     console.log();
 
     if (_.values(this.countsByValue).length === 0) {
       Proportions.renderEmptyResults(info);
     } else {
-      this.renderNonEmptyResults(info, language);
+      Proportions.renderNonEmptyResults(info, this.countsByValue, normalizer, language);
     }
   }
 };

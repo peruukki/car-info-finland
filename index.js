@@ -16,6 +16,8 @@ const powerSource = require('./info/power-source');
 const vehicleClass = require('./info/vehicle-class');
 const width = require('./info/width');
 
+const proportionNormalizer = require('./normalizers/proportionNormalizer');
+
 let count = 0;
 
 const progressLabel = 'Cars processed: ';
@@ -44,7 +46,9 @@ const processData = (filename, filters, calculations, language) => {
     })
     .on('end', () => {
       process.stdout.write('\n');
-      calculations.forEach((calculation) => calculation.calculator.processResults(calculation.info, language));
+      calculations.forEach((calculation) =>
+        calculation.calculator.processResults(calculation.info, calculation.normalizer, language)
+      );
     });
 };
 
@@ -55,7 +59,7 @@ const calculations = [
   { calculator: new Tendencies(), info: width },
   { calculator: new Tendencies(), info: co2 },
   { calculator: new Proportions(), info: powerSource },
-  { calculator: new Proportions(), info: brand },
+  { calculator: new Proportions(), info: brand, normalizer: proportionNormalizer },
 ];
 
 const validateOptions = (cmd) => {
