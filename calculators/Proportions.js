@@ -1,14 +1,9 @@
 const _ = require('lodash');
+const utils = require('./utils');
 
 module.exports = class Proportions {
   constructor() {
     this.countsByValue = {};
-  }
-
-  static renderPercentage(count, total) {
-    const percentage = (count / total) * 100;
-    const decimalCount = percentage > 0 && percentage < 1 ? 1 : 0;
-    return `${percentage.toFixed(decimalCount)} %`;
   }
 
   static renderProportion(proportion, ordinal, ordinalCount) {
@@ -26,7 +21,7 @@ module.exports = class Proportions {
     return keys.map((key) => ({
       label: labelFn(key),
       count: this.countsByValue[key] || 0,
-      percentage: Proportions.renderPercentage(this.countsByValue[key] || 0, totalWithValue),
+      percentage: utils.renderPercentage(this.countsByValue[key] || 0, totalWithValue),
     }));
   }
 
@@ -54,10 +49,7 @@ module.exports = class Proportions {
       : this.getProportionsByValues(totalWithValue);
 
     console.log(
-      `Cars with a known ${info.name}: ${totalWithValue}/${total} (${Proportions.renderPercentage(
-        totalWithValue,
-        total
-      )}).`
+      `Cars with a known ${info.name}: ${totalWithValue}/${total} (${utils.renderPercentage(totalWithValue, total)}).`
     );
     console.log(`Proportions for ${info.name}:`);
     _.chain(proportions)

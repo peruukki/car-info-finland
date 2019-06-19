@@ -1,15 +1,10 @@
 const _ = require('lodash');
 const bigInt = require('big-integer');
+const utils = require('./utils');
 
 module.exports = class Tendencies {
   constructor() {
     this.values = [];
-  }
-
-  static renderPercentage(count, total) {
-    const percentage = (count / total) * 100;
-    const decimalCount = percentage < 1 ? 1 : 0;
-    return `${percentage.toFixed(decimalCount)} %`;
   }
 
   static calculateMean(validValues) {
@@ -45,7 +40,7 @@ module.exports = class Tendencies {
     const median = Tendencies.calculateMedian(sortedValues);
 
     console.log(
-      `Cars with a known ${info.name}: ${validValues.length}/${this.values.length} (${Tendencies.renderPercentage(
+      `Cars with a known ${info.name}: ${validValues.length}/${this.values.length} (${utils.renderPercentage(
         validValues.length,
         this.values.length
       )}).`
