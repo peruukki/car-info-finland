@@ -8,13 +8,13 @@ const Proportions = require('./calculators/Proportions');
 
 const enumFilter = require('./filters/enumFilter');
 
-const brand = require('./info/brand');
-const color = require('./info/color');
-const co2 = require('./info/co2');
-const length = require('./info/length');
-const powerSource = require('./info/power-source');
-const vehicleClass = require('./info/vehicle-class');
-const width = require('./info/width');
+const brand = require('./carProperties/brand');
+const color = require('./carProperties/color');
+const co2 = require('./carProperties/co2');
+const length = require('./carProperties/length');
+const powerSource = require('./carProperties/powerSource');
+const vehicleClass = require('./carProperties/vehicleClass');
+const width = require('./carProperties/width');
 
 const proportionNormalizer = require('./normalizers/proportionNormalizer');
 
