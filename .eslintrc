@@ -1,22 +1,9 @@
 {
-  "extends": "airbnb-base",
+  "extends": ["airbnb-base", "plugin:@typescript-eslint/recommended", "prettier", "prettier/@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "arrow-parens": ["error", "always"],
-    "comma-dangle": [
-      "error",
-      {
-        "arrays": "always-multiline",
-        "objects": "always-multiline",
-        "imports": "always-multiline",
-        "exports": "always-multiline",
-        "functions": "never"
-      }
-    ],
-    "function-paren-newline": "off",
-    "implicit-arrow-linebreak": "off",
-    "indent": "off",
     "max-len": ["error", 120],
-    "no-console": "off",
-    "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }]
+    "no-console": "off"
   }
 }
