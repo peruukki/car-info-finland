@@ -1,4 +1,6 @@
-module.exports = {
+import { CarProperty } from '../types';
+
+const property: CarProperty = {
   name: 'power source',
   columnName: 'kayttovoima',
   valueLabels: {
@@ -64,3 +66,5 @@ module.exports = {
     Y: { fi: 'Muu', sv: 'Övrig', en: 'Other' },
   },
 };
+
+export = property;

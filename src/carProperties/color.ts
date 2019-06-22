@@ -1,4 +1,6 @@
-module.exports = {
+import { CarProperty } from '../types';
+
+const property: CarProperty = {
   name: 'color',
   columnName: 'vari',
   valueLabels: {
@@ -17,3 +19,5 @@ module.exports = {
     Z: { fi: 'Turkoosi', sv: 'Turkos', en: 'Turquoise' },
   },
 };
+
+export = property;
