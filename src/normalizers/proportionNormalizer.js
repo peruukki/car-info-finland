@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const utils = require('../calculators/utils');
+const utils = require('../calculators/Utils');
 
 const getLabelMatchingAbbreviation = (normalizedLabel, abbreviations) => {
   const matchingAbbreviation = _.find(
