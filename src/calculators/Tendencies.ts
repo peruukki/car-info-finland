@@ -1,9 +1,10 @@
+import { CarProperty, Calculator } from '../types';
+
 import _ = require('lodash');
 import bigInt = require('big-integer');
 import Utils = require('./Utils');
-import { CarProperty } from '../types';
 
-class Tendencies {
+class Tendencies implements Calculator {
   private values: (number | null)[] = [];
 
   static calculateMean(validValues: number[]): number | undefined {

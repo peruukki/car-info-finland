@@ -1,8 +1,9 @@
+import { CarProperty, Normalizer, ValueLabels, Proportion, Calculator } from '../types';
+
 import _ = require('lodash');
 import Utils = require('./Utils');
-import { CarProperty, Normalizer, ValueLabels, Proportion } from '../types';
 
-class Proportions {
+class Proportions implements Calculator {
   private readonly countsByValue: { [value: string]: number } = {};
 
   static renderProportion(proportion: Proportion, ordinal: number, ordinalCount: number): string {

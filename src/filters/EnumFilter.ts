@@ -1,10 +1,11 @@
-import _ = require('lodash');
-import { CsvRecord, CarProperty } from '../types';
+import { CsvRecord, CarProperty, Filter } from '../types';
 
-class EnumFilter {
-  static filter(record: CsvRecord, property: CarProperty, values: string[]): boolean {
-    const acceptedValues = _.flatten(values);
-    return _.includes(acceptedValues, record[property.columnName]);
+import _ = require('lodash');
+
+class EnumFilter implements Filter {
+  filter(record: CsvRecord, property: CarProperty, acceptedValues: string[][]): boolean {
+    const flattenedAcceptedValues = _.flatten(acceptedValues);
+    return _.includes(flattenedAcceptedValues, record[property.columnName]);
   }
 }
 

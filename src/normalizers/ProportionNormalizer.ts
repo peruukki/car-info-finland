@@ -1,6 +1,7 @@
+import { Mapping, Proportion, NormalizerValueMappings } from '../types';
+
 import _ = require('lodash');
 import Utils = require('../calculators/Utils');
-import { Mapping, Proportion, NormalizerValueMappings } from '../types';
 
 class ProportionNormalizer {
   static getLabelMatchingAbbreviation(normalizedLabel: string, abbreviations: Mapping): string | null {

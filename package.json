@@ -9,7 +9,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint src",
+    "lint": "eslint --ext ts src",
     "test": "npm run lint"
   },
   "keywords": [

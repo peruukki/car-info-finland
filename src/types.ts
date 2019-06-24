@@ -1,3 +1,8 @@
+export interface Calculator {
+  processRecord: (value: string) => void;
+  processResults: (property: CarProperty, normalizer: Normalizer, language: string) => void;
+}
+
 export interface CarProperty {
   columnName: string;
   filterValues?: FilterValues;
@@ -8,6 +13,10 @@ export interface CarProperty {
 
 export interface CsvRecord {
   [columnName: string]: string;
+}
+
+export interface Filter {
+  filter: (record: CsvRecord, property: CarProperty, acceptedValues: string[][]) => boolean;
 }
 
 export interface FilterValues {
@@ -25,6 +34,18 @@ export interface Normalizer {
 export interface NormalizerValueMappings {
   aliases: Mapping;
   abbreviations: Mapping;
+}
+
+export interface PropertyFilter {
+  acceptedValues: string[][];
+  filter: Filter;
+  property: CarProperty;
+}
+
+export interface PropertyCalculation {
+  calculator: Calculator;
+  normalizer?: Normalizer;
+  property: CarProperty;
 }
 
 export interface Proportion {
