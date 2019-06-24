@@ -6,7 +6,7 @@ const fs = require('fs');
 const Tendencies = require('./calculators/Tendencies');
 const Proportions = require('./calculators/Proportions');
 
-const enumFilter = require('./filters/enumFilter');
+const EnumFilter = require('./filters/EnumFilter');
 
 const brand = require('./carProperties/brand');
 const color = require('./carProperties/color');
@@ -52,7 +52,7 @@ const processData = (filename, filters, calculations, language) => {
     });
 };
 
-const filters = [{ filterFn: enumFilter, info: vehicleClass, values: [vehicleClass.filterValues.car] }];
+const filters = [{ filterFn: EnumFilter.filter, info: vehicleClass, values: [vehicleClass.filterValues.car] }];
 const calculations = [
   { calculator: new Proportions(), info: color },
   { calculator: new Tendencies(), info: length },

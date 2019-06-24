@@ -6,6 +6,10 @@ export interface CarProperty {
   valueLabels?: ValueLabels;
 }
 
+export interface CsvRecord {
+  [columnName: string]: string;
+}
+
 export interface FilterValues {
   [category: string]: string[];
 }
