@@ -1,5 +1,3 @@
-import { CsvRecord, CarProperty, Filter } from '../types';
-
 import _ = require('lodash');
 
 class EnumFilter implements Filter {

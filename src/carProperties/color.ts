@@ -1,5 +1,3 @@
-import { CarProperty } from '../types';
-
 const property: CarProperty = {
   name: 'color',
   columnName: 'vari',

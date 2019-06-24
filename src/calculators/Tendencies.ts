@@ -1,5 +1,3 @@
-import { CarProperty, Calculator } from '../types';
-
 import _ = require('lodash');
 import bigInt = require('big-integer');
 import Utils = require('./Utils');

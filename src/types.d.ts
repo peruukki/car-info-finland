@@ -1,9 +1,9 @@
-export interface Calculator {
+declare interface Calculator {
   processRecord: (value: string) => void;
   processResults: (property: CarProperty, normalizer: Normalizer, language: string) => void;
 }
 
-export interface CarProperty {
+declare interface CarProperty {
   columnName: string;
   filterValues?: FilterValues;
   name: string;
@@ -11,57 +11,57 @@ export interface CarProperty {
   valueLabels?: ValueLabels;
 }
 
-export interface CsvRecord {
+declare interface CsvRecord {
   [columnName: string]: string;
 }
 
-export interface Filter {
+declare interface Filter {
   filter: (record: CsvRecord, property: CarProperty, acceptedValues: string[][]) => boolean;
 }
 
-export interface FilterValues {
+declare interface FilterValues {
   [category: string]: string[];
 }
 
-export interface Mapping {
+declare interface Mapping {
   [value: string]: string;
 }
 
-export interface Normalizer {
+declare interface Normalizer {
   normalize: (proportions: Proportion[], totalWithValue: number, input: NormalizerValueMappings) => Proportion[];
 }
 
-export interface NormalizerValueMappings {
+declare interface NormalizerValueMappings {
   aliases: Mapping;
   abbreviations: Mapping;
 }
 
-export interface PropertyFilter {
+declare interface PropertyFilter {
   acceptedValues: string[][];
   filter: Filter;
   property: CarProperty;
 }
 
-export interface PropertyCalculation {
+declare interface PropertyCalculation {
   calculator: Calculator;
   normalizer?: Normalizer;
   property: CarProperty;
 }
 
-export interface Proportion {
+declare interface Proportion {
   label: string;
   count: number;
   percentage: string;
 }
 
-export interface TranslatedString {
+declare interface TranslatedString {
   en: string;
   fi: string;
   sv: string;
   [language: string]: string;
 }
 
-export interface ValueLabels {
+declare interface ValueLabels {
   [value: number]: TranslatedString;
   [value: string]: TranslatedString;
 }

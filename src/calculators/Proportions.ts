@@ -1,5 +1,3 @@
-import { CarProperty, Normalizer, ValueLabels, Proportion, Calculator } from '../types';
-
 import _ = require('lodash');
 import Utils = require('./Utils');
 

@@ -1,5 +1,3 @@
-import { CarProperty } from '../types';
-
 const mercedesBenz = 'mercedes-benz';
 const possl = 'pössl';
 const volkswagen = 'volkswagen';

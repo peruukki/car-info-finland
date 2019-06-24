@@ -1,5 +1,3 @@
-import { CsvRecord, PropertyFilter, PropertyCalculation } from './types';
-
 import _ = require('lodash');
 import program = require('commander');
 import csv = require('csv-parser');

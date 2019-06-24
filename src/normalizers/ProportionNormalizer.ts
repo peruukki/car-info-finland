@@ -1,5 +1,3 @@
-import { Mapping, Proportion, NormalizerValueMappings } from '../types';
-
 import _ = require('lodash');
 import Utils = require('../calculators/Utils');
 
