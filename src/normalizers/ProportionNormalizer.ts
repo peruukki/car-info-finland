@@ -1,20 +1,22 @@
-const _ = require('lodash');
-const utils = require('../calculators/Utils');
+import _ = require('lodash');
+import Utils = require('../calculators/Utils');
+import { Mapping, Proportion, NormalizerValueMappings } from '../types';
 
-const getLabelMatchingAbbreviation = (normalizedLabel, abbreviations) => {
-  const matchingAbbreviation = _.find(
-    _.keys(abbreviations),
-    (abbreviation) =>
-      abbreviation === normalizedLabel ||
-      new RegExp(`^${abbreviation}[- ]`).test(normalizedLabel) ||
-      new RegExp(`[- ]${abbreviation}$`).test(normalizedLabel)
-  );
-  return matchingAbbreviation ? abbreviations[matchingAbbreviation] : null;
-};
+class ProportionNormalizer {
+  static getLabelMatchingAbbreviation(normalizedLabel: string, abbreviations: Mapping): string | null {
+    const matchingAbbreviation = _.find(
+      _.keys(abbreviations),
+      (abbreviation) =>
+        abbreviation === normalizedLabel ||
+        new RegExp(`^${abbreviation}[- ]`).test(normalizedLabel) ||
+        new RegExp(`[- ]${abbreviation}$`).test(normalizedLabel)
+    );
+    return matchingAbbreviation ? abbreviations[matchingAbbreviation] : null;
+  }
 
-module.exports = {
-  normalize: (proportions, totalWithValue, { aliases = {}, abbreviations = {} }) => {
-    const mergedLabels = {};
+  normalize(proportions: Proportion[], totalWithValue: number, valueMappings: NormalizerValueMappings): Proportion[] {
+    const mergedLabels: { [label: string]: boolean } = {};
+    const { aliases, abbreviations } = valueMappings;
 
     return _.chain(proportions)
       .map((proportion, proportionIndex) => {
@@ -36,7 +38,8 @@ module.exports = {
           if (
             aliases[normalizedFollowingLabel] === normalizedLabel ||
             normalizedFollowingLabel.includes(normalizedLabel) ||
-            getLabelMatchingAbbreviation(normalizedFollowingLabel, abbreviations) === normalizedLabel
+            ProportionNormalizer.getLabelMatchingAbbreviation(normalizedFollowingLabel, abbreviations) ===
+              normalizedLabel
           ) {
             mergedLabels[followingProportion.label] = true;
             return currentCount + followingProportion.count;
@@ -47,12 +50,14 @@ module.exports = {
         return {
           ...proportion,
           count: normalizedCount,
-          percentage: utils.renderPercentage(normalizedCount, totalWithValue),
+          percentage: Utils.renderPercentage(normalizedCount, totalWithValue),
         };
       })
       .compact()
       .sortBy('count')
       .reverse()
       .value();
-  },
-};
+  }
+}
+
+export = ProportionNormalizer;

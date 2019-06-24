@@ -14,13 +14,17 @@ export interface FilterValues {
   [category: string]: string[];
 }
 
+export interface Mapping {
+  [value: string]: string;
+}
+
 export interface Normalizer {
   normalize: (proportions: Proportion[], totalWithValue: number, input: NormalizerValueMappings) => Proportion[];
 }
 
 export interface NormalizerValueMappings {
-  aliases: Map<string, string>;
-  abbreviations: Map<string, string>;
+  aliases: Mapping;
+  abbreviations: Mapping;
 }
 
 export interface Proportion {

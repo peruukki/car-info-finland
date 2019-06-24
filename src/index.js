@@ -16,7 +16,7 @@ const powerSource = require('./carProperties/powerSource');
 const vehicleClass = require('./carProperties/vehicleClass');
 const width = require('./carProperties/width');
 
-const proportionNormalizer = require('./normalizers/proportionNormalizer');
+const ProportionNormalizer = require('./normalizers/ProportionNormalizer');
 
 let count = 0;
 
@@ -59,7 +59,7 @@ const calculations = [
   { calculator: new Tendencies(), info: width },
   { calculator: new Tendencies(), info: co2 },
   { calculator: new Proportions(), info: powerSource },
-  { calculator: new Proportions(), info: brand, normalizer: proportionNormalizer },
+  { calculator: new Proportions(), info: brand, normalizer: new ProportionNormalizer() },
 ];
 
 const validateOptions = (cmd) => {
