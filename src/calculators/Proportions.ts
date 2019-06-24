@@ -30,7 +30,7 @@ class Proportions implements Calculator {
   }
 
   getProportionsByValues(totalWithValue: number): Proportion[] {
-    return this.getProportions(_.keys(this.countsByValue.keys), totalWithValue, _.identity);
+    return this.getProportions(_.keys(this.countsByValue), totalWithValue, _.identity);
   }
 
   renderNonEmptyResults(property: CarProperty, normalizer: Normalizer, language: string): void {
