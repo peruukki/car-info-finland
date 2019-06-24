@@ -11,6 +11,10 @@ declare interface CarProperty {
   valueLabels?: ValueLabels;
 }
 
+declare interface CommandLineOptions {
+  language?: string;
+}
+
 declare interface CsvRecord {
   [columnName: string]: string;
 }

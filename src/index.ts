@@ -24,6 +24,7 @@ const progressLabel = 'Cars processed: ';
 const progressIndex = progressLabel.length;
 
 function printProgress(recordCount: number): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (process.stdout as any).cursorTo(progressIndex); // cursorTo is missing from WriteStream typings
   process.stdout.write(recordCount.toString());
 }
@@ -72,7 +73,7 @@ const calculations: PropertyCalculation[] = [
   { calculator: new Proportions(), property: brand, normalizer: new ProportionNormalizer() },
 ];
 
-function validateOptions(cmd: any): any {
+function validateOptions(cmd: CommandLineOptions): CommandLineOptions {
   const { language } = cmd;
   if (!_.includes(['fi', 'sv', 'en'], language)) {
     console.error(`error: invalid language value '${language}', must be one of fi|sv|en`);
