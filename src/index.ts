@@ -35,12 +35,21 @@ function passesFilters(record: CsvRecord, propertyFilters: PropertyFilter[]): bo
   );
 }
 
+function toCalculation(property: PropertyWithNormalizer): PropertyCalculation {
+  return {
+    ...property,
+    calculator: property.property.type === 'Proportions' ? new Proportions() : new Tendencies(),
+  };
+}
+
 function processData(
   filename: string,
   filters: PropertyFilter[],
-  calculations: PropertyCalculation[],
+  properties: PropertyWithNormalizer[],
   language: string
 ): void {
+  const calculations = properties.map(toCalculation);
+
   fs.createReadStream(filename, { encoding: 'latin1' })
     .pipe(csv({ separator: ';' }))
     .on('data', (record) => {
@@ -64,13 +73,13 @@ function processData(
 const filters: PropertyFilter[] = [
   { filter: new EnumFilter(), property: vehicleClass, acceptedValues: [vehicleClass.filterValues.car] },
 ];
-const calculations: PropertyCalculation[] = [
-  { calculator: new Proportions(), property: color },
-  { calculator: new Tendencies(), property: length },
-  { calculator: new Tendencies(), property: width },
-  { calculator: new Tendencies(), property: co2 },
-  { calculator: new Proportions(), property: powerSource },
-  { calculator: new Proportions(), property: brand, normalizer: new ProportionNormalizer() },
+const properties: PropertyWithNormalizer[] = [
+  { property: color },
+  { property: length },
+  { property: width },
+  { property: co2 },
+  { property: powerSource },
+  { property: brand, normalizer: new ProportionNormalizer() },
 ];
 
 function validateOptions(cmd: CommandLineOptions): CommandLineOptions {
@@ -88,6 +97,6 @@ program
   .action((filename, cmd) => {
     const { language } = validateOptions(cmd);
     process.stdout.write(progressLabel);
-    processData(filename, filters, calculations, language);
+    processData(filename, filters, properties, language);
   });
 program.parse(process.argv);

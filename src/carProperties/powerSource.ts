@@ -63,6 +63,7 @@ const property: CarProperty = {
     X: { fi: 'Ei sovellettavissa', sv: 'Ej tillämplig', en: 'Not applicable' },
     Y: { fi: 'Muu', sv: 'Övrig', en: 'Other' },
   },
+  type: 'Proportions',
 };
 
 export = property;

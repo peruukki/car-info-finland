@@ -18,6 +18,7 @@ const property: CarProperty = {
     },
     abbreviations: { vw: volkswagen, mb: mercedesBenz, 'm-b': mercedesBenz },
   },
+  type: 'Proportions',
 };
 
 export = property;

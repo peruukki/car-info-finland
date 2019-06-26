@@ -16,6 +16,7 @@ const property: CarProperty = {
     Y: { fi: 'Hopea', sv: 'Silver', en: 'Silver' },
     Z: { fi: 'Turkoosi', sv: 'Turkos', en: 'Turquoise' },
   },
+  type: 'Proportions',
 };
 
 export = property;

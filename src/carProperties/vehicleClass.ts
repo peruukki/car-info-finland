@@ -4,6 +4,7 @@ const property: CarProperty = {
   filterValues: {
     car: ['M1', 'M1G'],
   },
+  type: 'Proportions',
 };
 
 export = property;

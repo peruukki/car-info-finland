@@ -1,3 +1,5 @@
+declare type CalculationType = 'Proportions' | 'Tendencies';
+
 declare interface Calculator {
   processRecord: (value: string) => void;
   processResults: (property: CarProperty, normalizer: Normalizer, language: string) => void;
@@ -8,6 +10,7 @@ declare interface CarProperty {
   filterValues?: FilterValues;
   name: string;
   normalizer?: NormalizerValueMappings;
+  type: CalculationType;
   valueLabels?: ValueLabels;
 }
 
@@ -46,8 +49,11 @@ declare interface PropertyFilter {
   property: CarProperty;
 }
 
-declare interface PropertyCalculation {
+declare interface PropertyCalculation extends PropertyWithNormalizer {
   calculator: Calculator;
+}
+
+declare interface PropertyWithNormalizer {
   normalizer?: Normalizer;
   property: CarProperty;
 }
