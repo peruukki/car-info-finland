@@ -1,8 +1,8 @@
 declare type CalculationType = 'Proportions' | 'Tendencies';
 
 declare interface Calculator {
-  processRecord: (value: string) => void;
-  processResults: (property: CarProperty, normalizer: Normalizer, language: string) => void;
+  processRecord(value: string): void;
+  processResults(property: CarProperty, normalizer: Normalizer, language: string): void;
 }
 
 declare interface CarProperty {
@@ -23,7 +23,7 @@ declare interface CsvRecord {
 }
 
 declare interface Filter {
-  filter: (record: CsvRecord, property: CarProperty, acceptedValues: string[][]) => boolean;
+  filter(record: CsvRecord, property: CarProperty, acceptedValues: string[][]): boolean;
 }
 
 declare interface FilterValues {
@@ -35,7 +35,7 @@ declare interface Mapping {
 }
 
 declare interface Normalizer {
-  normalize: (proportions: Proportion[], totalWithValue: number, input: NormalizerValueMappings) => Proportion[];
+  normalize(proportions: Proportion[], totalWithValue: number, input: NormalizerValueMappings): Proportion[];
 }
 
 declare interface NormalizerValueMappings {
