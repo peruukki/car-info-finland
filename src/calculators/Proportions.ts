@@ -68,8 +68,22 @@ class Proportions implements Calculator {
     );
   }
 
+  getCategoryKey(valueCategories: ValueCategory[], value: string): string {
+    const valueNumber = Number(value);
+    if (!valueNumber) {
+      return '';
+    }
+    const valueCategory = _.find(valueCategories, (category) => {
+      const minMatch = !category.min || valueNumber >= category.min;
+      const maxMatch = !category.max || valueNumber <= category.max;
+      return minMatch && maxMatch;
+    });
+    return valueCategory ? valueCategory.label : '';
+  }
+
   processRecord(value: string): void {
-    this.countsByValue[value] = this.countsByValue[value] ? this.countsByValue[value] + 1 : 1;
+    const key = this.property.valueCategories ? this.getCategoryKey(this.property.valueCategories, value) : value;
+    this.countsByValue[key] = this.countsByValue[key] ? this.countsByValue[key] + 1 : 1;
   }
 
   processResults(normalizer: Normalizer, language: string): void {

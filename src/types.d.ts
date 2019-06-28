@@ -11,6 +11,7 @@ declare interface CarProperty {
   name: string;
   normalizer?: NormalizerValueMappings;
   type: CalculationType;
+  valueCategories?: ValueCategory[];
   valueLabels?: ValueLabels;
 }
 
@@ -74,4 +75,10 @@ declare interface TranslatedString {
 declare interface ValueLabels {
   [value: number]: TranslatedString;
   [value: string]: TranslatedString;
+}
+
+declare interface ValueCategory {
+  label: string;
+  max?: number;
+  min?: number;
 }
