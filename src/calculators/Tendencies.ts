@@ -3,7 +3,7 @@ import bigInt = require('big-integer');
 import Utils = require('./Utils');
 
 class Tendencies implements Calculator {
-  private values: (number | null)[] = [];
+  private readonly values: (number | null)[] = [];
 
   static calculateMean(validValues: number[]): number | undefined {
     return validValues.length === 0
