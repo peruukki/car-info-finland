@@ -5,6 +5,8 @@ import Utils = require('./Utils');
 class Tendencies implements Calculator {
   private readonly values: (number | null)[] = [];
 
+  constructor(private readonly property: CarProperty) {}
+
   static calculateMean(validValues: number[]): number | undefined {
     return validValues.length === 0
       ? undefined
@@ -26,11 +28,11 @@ class Tendencies implements Calculator {
     return (sortedValues[sortedValues.length / 2] + sortedValues[sortedValues.length / 2 - 1]) / 2;
   }
 
-  static renderEmptyResults(property: CarProperty): void {
-    console.log(`No cars matched the filters, cannot show ${property.name} information.`);
+  renderEmptyResults(): void {
+    console.log(`No cars matched the filters, cannot show ${this.property.name} information.`);
   }
 
-  renderNonEmptyResults(property: CarProperty): void {
+  renderNonEmptyResults(): void {
     const validValues = _.compact(this.values);
     const sortedValues = _.sortBy(validValues);
 
@@ -38,12 +40,12 @@ class Tendencies implements Calculator {
     const median = Tendencies.calculateMedian(sortedValues);
 
     console.log(
-      `Cars with a known ${property.name}: ${validValues.length}/${this.values.length} (${Utils.renderPercentage(
+      `Cars with a known ${this.property.name}: ${validValues.length}/${this.values.length} (${Utils.renderPercentage(
         validValues.length,
         this.values.length
       )}).`
     );
-    console.log(`Tendencies for ${property.name}:`);
+    console.log(`Tendencies for ${this.property.name}:`);
     console.log(`Mean:   ${mean}`);
     console.log(`Median: ${median}`);
     console.log(`Min:    ${_.first(sortedValues)}`);
@@ -54,13 +56,13 @@ class Tendencies implements Calculator {
     this.values.push(value ? Number(value) : null);
   }
 
-  processResults(property: CarProperty): void {
+  processResults(): void {
     console.log();
 
     if (this.values.length === 0) {
-      Tendencies.renderEmptyResults(property);
+      this.renderEmptyResults();
     } else {
-      this.renderNonEmptyResults(property);
+      this.renderNonEmptyResults();
     }
   }
 }

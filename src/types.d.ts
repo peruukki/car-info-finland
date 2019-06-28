@@ -2,7 +2,7 @@ declare type CalculationType = 'Proportions' | 'Tendencies';
 
 declare interface Calculator {
   processRecord(value: string): void;
-  processResults(property: CarProperty, normalizer: Normalizer, language: string): void;
+  processResults(normalizer: Normalizer, language: string): void;
 }
 
 declare interface CarProperty {

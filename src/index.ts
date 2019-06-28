@@ -38,7 +38,8 @@ function passesFilters(record: CsvRecord, propertyFilters: PropertyFilter[]): bo
 function toCalculation(property: PropertyWithNormalizer): PropertyCalculation {
   return {
     ...property,
-    calculator: property.property.type === 'Proportions' ? new Proportions() : new Tendencies(),
+    calculator:
+      property.property.type === 'Proportions' ? new Proportions(property.property) : new Tendencies(property.property),
   };
 }
 
@@ -64,9 +65,7 @@ function processData(
     })
     .on('end', () => {
       process.stdout.write('\n');
-      calculations.forEach((calculation) =>
-        calculation.calculator.processResults(calculation.property, calculation.normalizer, language)
-      );
+      calculations.forEach((calculation) => calculation.calculator.processResults(calculation.normalizer, language));
     });
 }
 
