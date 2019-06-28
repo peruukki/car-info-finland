@@ -10,7 +10,7 @@ import EnumFilter = require('./filters/EnumFilter');
 
 import brand = require('./carProperties/brand');
 import color = require('./carProperties/color');
-import co2 = require('./carProperties/co2');
+import co2Value = require('./carProperties/co2Value');
 import length = require('./carProperties/length');
 import powerSource = require('./carProperties/powerSource');
 import vehicleClass = require('./carProperties/vehicleClass');
@@ -77,7 +77,7 @@ const properties: PropertyWithNormalizer[] = [
   { property: color },
   { property: length },
   { property: width },
-  { property: co2 },
+  { property: co2Value },
   { property: powerSource },
   { property: brand, normalizer: new ProportionNormalizer() },
 ];
