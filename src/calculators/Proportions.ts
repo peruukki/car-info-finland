@@ -17,7 +17,7 @@ class Proportions implements Calculator {
     ordinalCount: number
   ): string {
     const indentation = _.repeat(' ', ordinalCount.toString().length - ordinal.toString().length);
-    return `${indentation}${ordinal}. ${Proportions.renderProportion(proportion, labelLength)})`;
+    return `${indentation}${ordinal}. ${Proportions.renderProportion(proportion, labelLength)}`;
   }
 
   static renderProportions(proportions: Proportion[], withOrdinal: boolean): void {
