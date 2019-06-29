@@ -5,8 +5,11 @@
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/no-parameter-properties": "off",
     "class-methods-use-this": "off",
     "max-len": ["error", 120],
-    "no-console": "off"
+    "no-console": "off",
+    "no-empty-function": ["error", { "allow": ["constructors"] }],
+    "no-useless-constructor": "off"
   }
 }
