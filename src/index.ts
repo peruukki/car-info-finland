@@ -44,7 +44,12 @@ function toCalculation(property: CarProperty): PropertyCalculation {
   };
 }
 
-function processData(filename: string, filters: PropertyFilter[], properties: CarProperty[], language: string): void {
+function processData(
+  filename: string,
+  filters: PropertyFilter[],
+  properties: CarProperty[],
+  options: CommandLineOptions
+): void {
   const calculations = properties.map(toCalculation);
 
   fs.createReadStream(filename, { encoding: 'latin1' })
@@ -59,7 +64,9 @@ function processData(filename: string, filters: PropertyFilter[], properties: Ca
     })
     .on('end', () => {
       process.stdout.write('\n');
-      calculations.forEach((calculation) => calculation.calculator.processResults(calculation.normalizer, language));
+      calculations.forEach((calculation) =>
+        calculation.calculator.processResults(calculation.normalizer, options.language)
+      );
     });
 }
 
@@ -81,8 +88,8 @@ program
   .command('process <filename>')
   .option('-l, --language <language code>', 'language in which to show info labels: fi|sv|en', 'fi')
   .action((filename, cmd) => {
-    const { language } = validateOptions(cmd);
+    const options = validateOptions(cmd);
     process.stdout.write(progressLabel);
-    processData(filename, filters, properties, language);
+    processData(filename, filters, properties, options);
   });
 program.parse(process.argv);
