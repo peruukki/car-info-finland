@@ -36,20 +36,15 @@ function passesFilters(record: CsvRecord, propertyFilters: PropertyFilter[]): bo
   );
 }
 
-function toCalculation(property: PropertyWithNormalizer): PropertyCalculation {
+function toCalculation(property: CarProperty): PropertyCalculation {
   return {
     ...property,
-    calculator:
-      property.property.type === 'Proportions' ? new Proportions(property.property) : new Tendencies(property.property),
+    calculator: property.type === 'Proportions' ? new Proportions(property) : new Tendencies(property),
+    normalizer: property.type === 'Proportions' && property.normalizerMappings ? new ProportionNormalizer() : undefined,
   };
 }
 
-function processData(
-  filename: string,
-  filters: PropertyFilter[],
-  properties: PropertyWithNormalizer[],
-  language: string
-): void {
+function processData(filename: string, filters: PropertyFilter[], properties: CarProperty[], language: string): void {
   const calculations = properties.map(toCalculation);
 
   fs.createReadStream(filename, { encoding: 'latin1' })
@@ -57,9 +52,7 @@ function processData(
     .on('data', (record) => {
       count += 1;
       if (passesFilters(record, filters)) {
-        calculations.forEach((calculation) =>
-          calculation.calculator.processRecord(record[calculation.property.columnName])
-        );
+        calculations.forEach((calculation) => calculation.calculator.processRecord(record[calculation.columnName]));
       }
 
       printProgress(count);
@@ -73,15 +66,7 @@ function processData(
 const filters: PropertyFilter[] = [
   { filter: new EnumFilter(), property: vehicleClass, acceptedValues: [vehicleClass.filterValues.car] },
 ];
-const properties: PropertyWithNormalizer[] = [
-  { property: color },
-  { property: length },
-  { property: width },
-  { property: co2Value },
-  { property: co2EnergyClass },
-  { property: powerSource },
-  { property: brand, normalizer: new ProportionNormalizer() },
-];
+const properties: CarProperty[] = [color, length, width, co2Value, co2EnergyClass, powerSource, brand];
 
 function validateOptions(cmd: CommandLineOptions): CommandLineOptions {
   const { language } = cmd;

@@ -5,7 +5,7 @@ const volkswagen = 'volkswagen';
 const property: CarProperty = {
   name: 'brand',
   columnName: 'merkkiSelvakielinen',
-  normalizer: {
+  normalizerMappings: {
     aliases: {
       bww: 'bmw',
       mercedes: mercedesBenz,

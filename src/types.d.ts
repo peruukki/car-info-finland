@@ -9,7 +9,7 @@ declare interface CarProperty {
   columnName: string;
   filterValues?: FilterValues;
   name: string;
-  normalizer?: NormalizerValueMappings;
+  normalizerMappings?: NormalizerMappings;
   type: CalculationType;
   valueCategories?: ValueCategory[];
   valueLabels?: ValueLabels;
@@ -36,10 +36,10 @@ declare interface Mapping {
 }
 
 declare interface Normalizer {
-  normalize(proportions: Proportion[], totalWithValue: number, input: NormalizerValueMappings): Proportion[];
+  normalize(proportions: Proportion[], totalWithValue: number, input: NormalizerMappings): Proportion[];
 }
 
-declare interface NormalizerValueMappings {
+declare interface NormalizerMappings {
   aliases: Mapping;
   abbreviations: Mapping;
 }
@@ -50,13 +50,9 @@ declare interface PropertyFilter {
   property: CarProperty;
 }
 
-declare interface PropertyCalculation extends PropertyWithNormalizer {
+declare interface PropertyCalculation extends CarProperty {
   calculator: Calculator;
-}
-
-declare interface PropertyWithNormalizer {
   normalizer?: Normalizer;
-  property: CarProperty;
 }
 
 declare interface Proportion {

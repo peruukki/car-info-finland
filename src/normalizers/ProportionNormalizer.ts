@@ -13,7 +13,7 @@ class ProportionNormalizer {
     return matchingAbbreviation ? abbreviations[matchingAbbreviation] : null;
   }
 
-  normalize(proportions: Proportion[], totalWithValue: number, valueMappings: NormalizerValueMappings): Proportion[] {
+  normalize(proportions: Proportion[], totalWithValue: number, valueMappings: NormalizerMappings): Proportion[] {
     const mergedLabels: { [label: string]: boolean } = {};
     const { aliases, abbreviations } = valueMappings;
 

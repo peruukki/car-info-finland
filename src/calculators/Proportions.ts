@@ -83,7 +83,7 @@ class Proportions implements Calculator {
     );
     console.log(`Proportions for ${this.property.name}:`);
     const normalizedProportions = normalizer
-      ? normalizer.normalize(proportions, totalWithValue, this.property.normalizer)
+      ? normalizer.normalize(proportions, totalWithValue, this.property.normalizerMappings)
       : proportions;
     Proportions.renderProportions(normalizedProportions, sortByCount);
   }
