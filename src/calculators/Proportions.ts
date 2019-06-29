@@ -49,6 +49,7 @@ class Proportions implements Calculator {
         ? this.getProportionsByLabels(this.property.valueLabels, totalWithValue, language)
         : this.getProportionsByValues(totalWithValue)
     )
+      .reject((proportion) => proportion.label === '')
       .sortBy('count')
       .reverse()
       .value();
