@@ -51,7 +51,7 @@ class Proportions implements Calculator {
     return this.getProportions(_.keys(this.countsByValue), totalWithValue, _.identity);
   }
 
-  renderNonEmptyResults(normalizer: Normalizer, language: string): void {
+  renderNonEmptyResults(language: string, normalizer?: Normalizer): void {
     const total = _.chain(this.countsByValue)
       .values()
       .sum()
@@ -82,9 +82,10 @@ class Proportions implements Calculator {
       )}).`
     );
     console.log(`Proportions for ${this.property.name}:`);
-    const normalizedProportions = normalizer
-      ? normalizer.normalize(proportions, totalWithValue, this.property.normalizerMappings)
-      : proportions;
+    const normalizedProportions =
+      normalizer && this.property.normalizerMappings
+        ? normalizer.normalize(proportions, totalWithValue, this.property.normalizerMappings)
+        : proportions;
     Proportions.renderProportions(normalizedProportions, sortByCount);
   }
 
@@ -106,13 +107,13 @@ class Proportions implements Calculator {
     this.countsByValue[key] = this.countsByValue[key] ? this.countsByValue[key] + 1 : 1;
   }
 
-  processResults(normalizer: Normalizer, language: string): void {
+  processResults(language: string, normalizer?: Normalizer): void {
     console.log();
 
     if (_.values(this.countsByValue).length === 0) {
       this.renderEmptyResults();
     } else {
-      this.renderNonEmptyResults(normalizer, language);
+      this.renderNonEmptyResults(language, normalizer);
     }
   }
 }

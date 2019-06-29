@@ -65,7 +65,7 @@ function processData(
     .on('end', () => {
       process.stdout.write('\n');
       calculations.forEach((calculation) =>
-        calculation.calculator.processResults(calculation.normalizer, options.language)
+        calculation.calculator.processResults(options.language, calculation.normalizer)
       );
     });
 }

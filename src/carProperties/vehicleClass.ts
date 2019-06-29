@@ -1,4 +1,4 @@
-const property: CarProperty = {
+const property: CarProperty & WithFilterValues = {
   name: 'vehicle class',
   columnName: 'ajoneuvoluokka',
   filterValues: {
