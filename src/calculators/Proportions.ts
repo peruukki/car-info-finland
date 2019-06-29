@@ -6,11 +6,13 @@ class Proportions implements Calculator {
 
   constructor(private readonly property: CarProperty) {}
 
-  static renderProportion(proportion: Proportion, ordinal: number, ordinalCount: number): string {
+  static renderProportion(proportion: Proportion): string {
+    return `${proportion.label.padEnd(20)} ${proportion.percentage.padStart(7)} (${proportion.count})`;
+  }
+
+  static renderProportionWithOrdinal(proportion: Proportion, ordinal: number, ordinalCount: number): string {
     const indentation = _.repeat(' ', ordinalCount.toString().length - ordinal.toString().length);
-    return `${indentation}${ordinal}. ${proportion.label.padEnd(20)} ${proportion.percentage.padStart(7)} (${
-      proportion.count
-    })`;
+    return `${indentation}${ordinal}. ${Proportions.renderProportion(proportion)})`;
   }
 
   renderEmptyResults(): void {
@@ -44,14 +46,17 @@ class Proportions implements Calculator {
       .sum()
       .value();
 
+    const sortByCount = !this.property.valueCategories;
     const proportions = _.chain(
       this.property.valueLabels
         ? this.getProportionsByLabels(this.property.valueLabels, totalWithValue, language)
         : this.getProportionsByValues(totalWithValue)
     )
       .reject((proportion) => proportion.label === '')
-      .sortBy('count')
-      .reverse()
+      .orderBy(
+        sortByCount ? 'count' : (proportion) => _.findIndex(this.property.valueCategories, { label: proportion.label }),
+        sortByCount ? 'desc' : 'asc'
+      )
       .value();
 
     console.log(
@@ -64,9 +69,12 @@ class Proportions implements Calculator {
     const normalizedProportions = normalizer
       ? normalizer.normalize(proportions, totalWithValue, this.property.normalizer)
       : proportions;
-    normalizedProportions.forEach((proportion, index) =>
-      console.log(Proportions.renderProportion(proportion, index + 1, proportions.length))
-    );
+    normalizedProportions.forEach((proportion, index) => {
+      const renderedProportion = sortByCount
+        ? Proportions.renderProportionWithOrdinal(proportion, index + 1, proportions.length)
+        : Proportions.renderProportion(proportion);
+      console.log(renderedProportion);
+    });
   }
 
   getCategoryKey(valueCategories: ValueCategory[], value: string): string {
