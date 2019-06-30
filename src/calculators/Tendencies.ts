@@ -28,11 +28,15 @@ class Tendencies implements Calculator {
     return (sortedValues[sortedValues.length / 2] + sortedValues[sortedValues.length / 2 - 1]) / 2;
   }
 
+  static calculatePercentileIndex(sortedValues: number[], percentileForValue: number): number {
+    return _.sortedIndex(sortedValues, percentileForValue);
+  }
+
   renderEmptyResults(): void {
     console.log(`No cars matched the filters, cannot show ${this.property.name} information.`);
   }
 
-  renderNonEmptyResults(): void {
+  renderNonEmptyResults(percentileForValue?: number): void {
     const validValues = _.compact(this.values);
     const sortedValues = _.sortBy(validValues);
 
@@ -50,19 +54,26 @@ class Tendencies implements Calculator {
     console.log(`Median: ${median}`);
     console.log(`Min:    ${_.first(sortedValues)}`);
     console.log(`Max:    ${_.last(sortedValues)}`);
+
+    if (percentileForValue) {
+      const percentileIndex = Tendencies.calculatePercentileIndex(sortedValues, percentileForValue);
+      console.log(
+        `Percentile for ${percentileForValue}: ${Utils.renderPercentage(percentileIndex, validValues.length)}`
+      );
+    }
   }
 
   processRecord(value: string): void {
     this.values.push(value ? Number(value) : null);
   }
 
-  processResults(): void {
+  processResults(language: string, percentile?: number): void {
     console.log();
 
     if (this.values.length === 0) {
       this.renderEmptyResults();
     } else {
-      this.renderNonEmptyResults();
+      this.renderNonEmptyResults(percentile);
     }
   }
 }

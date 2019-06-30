@@ -107,7 +107,7 @@ class Proportions implements Calculator {
     this.countsByValue[key] = this.countsByValue[key] ? this.countsByValue[key] + 1 : 1;
   }
 
-  processResults(language: string, normalizer?: Normalizer): void {
+  processResults(language: string, percentile?: number, normalizer?: Normalizer): void {
     console.log();
 
     if (_.values(this.countsByValue).length === 0) {

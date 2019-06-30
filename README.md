@@ -24,12 +24,17 @@ _Remember to run the build first (see above), otherwise you will get a `Cannot f
 Process the car info and show some interesting data:
 
 ```sh
-./car-info process [--language fi|sv|en] <filename>
+./car-info process [options] <filename>
+
+Options:
+  -c, --CO2 <CO2 emissions in g/km>  show percentile for given CO2 emissions when compared to other cars
+  -e, --length <length in mm>        show percentile for given length when compared to other cars
+  -w, --width <width in mm>          show percentile for given width when compared to other cars
+  -l, --language <language code>     language in which to show info labels: fi|sv|en (default: "fi")
+  -h, --help                         output usage information
 ```
 
-Example: `./car-info process data/data.csv --language sv`.
-
-The language option shows enumeration labels in the chosen language, the default is `fi`.
+Example without options: `./car-info process data/data.csv`.
 
 To get help:
 

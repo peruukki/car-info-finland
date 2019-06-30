@@ -2,7 +2,7 @@ declare type CalculationType = 'Proportions' | 'Tendencies';
 
 declare interface Calculator {
   processRecord(value: string): void;
-  processResults(language: string, normalizer?: Normalizer): void;
+  processResults(language: string, percentile?: number, normalizer?: Normalizer): void;
 }
 
 declare interface CarProperty {
@@ -16,7 +16,11 @@ declare interface CarProperty {
 }
 
 declare interface CommandLineOptions {
+  co2?: string;
   language: string;
+  length?: string;
+  width?: string;
+  [name: string]: string | undefined;
 }
 
 declare interface CsvRecord {
@@ -56,6 +60,7 @@ declare interface PropertyFilter {
 
 declare interface PropertyCalculation extends CarProperty {
   calculator: Calculator;
+  percentileForValue?: number;
   normalizer?: Normalizer;
 }
 

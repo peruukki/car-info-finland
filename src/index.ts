@@ -36,10 +36,15 @@ function passesFilters(record: CsvRecord, propertyFilters: PropertyFilter[]): bo
   );
 }
 
-function toCalculation(property: CarProperty): PropertyCalculation {
+function getPercentileForValue(property: CarProperty, options: CommandLineOptions): number | undefined {
+  return Number(options[property.name]) || undefined;
+}
+
+function toCalculation(property: CarProperty, options: CommandLineOptions): PropertyCalculation {
   return {
     ...property,
     calculator: property.type === 'Proportions' ? new Proportions(property) : new Tendencies(property),
+    percentileForValue: getPercentileForValue(property, options),
     normalizer: property.type === 'Proportions' && property.normalizerMappings ? new ProportionNormalizer() : undefined,
   };
 }
@@ -50,7 +55,7 @@ function processData(
   properties: CarProperty[],
   options: CommandLineOptions
 ): void {
-  const calculations = properties.map(toCalculation);
+  const calculations = properties.map((property) => toCalculation(property, options));
 
   fs.createReadStream(filename, { encoding: 'latin1' })
     .pipe(csv({ separator: ';' }))
@@ -65,7 +70,7 @@ function processData(
     .on('end', () => {
       process.stdout.write('\n');
       calculations.forEach((calculation) =>
-        calculation.calculator.processResults(options.language, calculation.normalizer)
+        calculation.calculator.processResults(options.language, calculation.percentileForValue, calculation.normalizer)
       );
     });
 }
@@ -76,16 +81,29 @@ const filters: PropertyFilter[] = [
 const properties: CarProperty[] = [color, length, width, co2Value, co2EnergyClass, powerSource, brand];
 
 function validateOptions(cmd: CommandLineOptions): CommandLineOptions {
-  const { language } = cmd;
+  const { co2: co2Option, language, length: lengthOption, width: widthOption } = cmd;
+
+  [co2Option, lengthOption, widthOption].forEach((numberOption) => {
+    const numberValue = Number(numberOption);
+    if (numberValue <= 0) {
+      console.error(`error: invalid numeric value '${numberOption}', must be a positive number`);
+      process.exit(1);
+    }
+  });
+
   if (!_.includes(['fi', 'sv', 'en'], language)) {
     console.error(`error: invalid language value '${language}', must be one of fi|sv|en`);
     process.exit(1);
   }
-  return { language };
+
+  return cmd;
 }
 
 program
   .command('process <filename>')
+  .option('-c, --CO2 <CO2 emissions in g/km>', 'show percentile for given CO2 emissions when compared to other cars')
+  .option('-e, --length <length in mm>', 'show percentile for given length when compared to other cars')
+  .option('-w, --width <width in mm>', 'show percentile for given width when compared to other cars')
   .option('-l, --language <language code>', 'language in which to show info labels: fi|sv|en', 'fi')
   .action((filename, cmd) => {
     const options = validateOptions(cmd);
