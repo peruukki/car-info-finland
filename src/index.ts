@@ -14,6 +14,7 @@ import co2EnergyClass = require('./carProperties/co2EnergyClass');
 import co2Value = require('./carProperties/co2Value');
 import length = require('./carProperties/length');
 import powerSource = require('./carProperties/powerSource');
+import transmission = require('./carProperties/transmission');
 import vehicleClass = require('./carProperties/vehicleClass');
 import width = require('./carProperties/width');
 
@@ -78,7 +79,7 @@ function processData(
 const filters: PropertyFilter[] = [
   { filter: new EnumFilter(), property: vehicleClass, acceptedValues: [vehicleClass.filterValues.car] },
 ];
-const properties: CarProperty[] = [color, length, width, co2Value, co2EnergyClass, powerSource, brand];
+const properties: CarProperty[] = [color, length, width, co2Value, co2EnergyClass, powerSource, brand, transmission];
 
 function validateOptions(cmd: CommandLineOptions): CommandLineOptions {
   const { co2: co2Option, language, length: lengthOption, width: widthOption } = cmd;
