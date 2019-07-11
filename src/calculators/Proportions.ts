@@ -76,7 +76,7 @@ class Proportions implements Calculator {
       .value();
 
     console.log(
-      `Cars with a known ${this.property.name}: ${totalWithValue}/${total} (${Utils.renderPercentage(
+      `Cars with a known ${this.property.name} value: ${totalWithValue}/${total} (${Utils.renderPercentage(
         totalWithValue,
         total
       )}).`

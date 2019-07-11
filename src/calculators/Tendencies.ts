@@ -44,10 +44,9 @@ class Tendencies implements Calculator {
     const median = Tendencies.calculateMedian(sortedValues);
 
     console.log(
-      `Cars with a known ${this.property.name}: ${validValues.length}/${this.values.length} (${Utils.renderPercentage(
-        validValues.length,
+      `Cars with a known ${this.property.name} value: ${validValues.length}/${
         this.values.length
-      )}).`
+      } (${Utils.renderPercentage(validValues.length, this.values.length)}).`
     );
     console.log(`Tendencies for ${this.property.name}:`);
     console.log(`Mean:   ${mean}`);
