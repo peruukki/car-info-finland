@@ -2,6 +2,7 @@ import _ = require('lodash');
 import program = require('commander');
 import csv = require('csv-parser');
 import fs = require('fs');
+import readline = require('readline');
 
 import Tendencies = require('./calculators/Tendencies');
 import Proportions = require('./calculators/Proportions');
@@ -27,8 +28,7 @@ const progressLabel = 'Cars processed: ';
 const progressIndex = progressLabel.length;
 
 function printProgress(recordCount: number): void {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (process.stdout as any).cursorTo(progressIndex); // cursorTo is missing from WriteStream typings
+  readline.cursorTo(process.stdout, progressIndex);
   process.stdout.write(recordCount.toString());
 }
 
