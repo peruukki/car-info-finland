@@ -27,9 +27,13 @@ let count = 0;
 const progressLabel = 'Cars processed: ';
 const progressIndex = progressLabel.length;
 
+function printCount(recordCount: number): void {
+  process.stdout.write(recordCount.toString());
+}
+
 function printProgress(recordCount: number): void {
   readline.cursorTo(process.stdout, progressIndex);
-  process.stdout.write(recordCount.toString());
+  printCount(recordCount);
 }
 
 function passesFilters(record: CsvRecord, propertyFilters: PropertyFilter[]): boolean {
@@ -58,6 +62,7 @@ function processData(
   options: CommandLineOptions
 ): void {
   const calculations = properties.map((property) => toCalculation(property, options));
+  const printProgressUpdates = !!process.stdout.isTTY;
 
   fs.createReadStream(filename, { encoding: 'latin1' })
     .pipe(csv({ separator: ';' }))
@@ -66,10 +71,14 @@ function processData(
       if (passesFilters(record, filters)) {
         calculations.forEach((calculation) => calculation.calculator.processRecord(record[calculation.columnName]));
       }
-
-      printProgress(count);
+      if (printProgressUpdates) {
+        printProgress(count);
+      }
     })
     .on('end', () => {
+      if (!printProgressUpdates) {
+        printCount(count);
+      }
       process.stdout.write('\n');
       calculations.forEach((calculation) =>
         calculation.calculator.processResults(options.language, calculation.percentileForValue, calculation.normalizer)
