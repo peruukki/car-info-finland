@@ -29,7 +29,7 @@ class ProportionNormalizer {
           return null;
         }
 
-        // Add following proportion' values that should be merged to current proportion's value
+        // Add following proportions' values that should be merged to current proportion's value
         const normalizedLabel = proportion.label.toLowerCase();
         const followingProportions = _.drop(proportions, proportionIndex + 1);
         const normalizedCount = followingProportions.reduce((currentCount, followingProportion) => {
