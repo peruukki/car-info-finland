@@ -472,10 +472,17 @@ const filters: PropertyFilter[] = [
 
 ### Normalizing
 
-The car brand names appear in varying forms in the data, so similar-looking names are treated as the same brand.
-Also, some known abbreviations are recognized as the longer brand name.
+The car brand names appear in varying forms in the data, so some names are treated as the same brand:
 
-These name mappings are defined in the car property's `normalizerMappings` field in [brand.ts](src/carProperties/brand.ts):
+1. known similar-looking names are matched
+2. known abbreviations are matched with the longer brand name
+3. if a brand name includes another brand name, and is less common than the included one, the brand names are matched;
+   for example, "Toyota Motorsport" is matched with "Toyota"
+
+This is by no means perfect, and there are some wrong matches, but it is good enough to cover the most common cases.
+
+The known name and abbreviation mappings are defined in the car property's `normalizerMappings` field in
+[brand.ts](src/carProperties/brand.ts):
 
 ```typescript
 normalizerMappings: {
