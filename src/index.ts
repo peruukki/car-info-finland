@@ -24,7 +24,7 @@ import ProportionNormalizer = require('./normalizers/ProportionNormalizer');
 
 let count = 0;
 
-const progressLabel = 'Cars processed: ';
+const progressLabel = 'Vehicles processed: ';
 const progressIndex = progressLabel.length;
 
 function printCount(recordCount: number): void {

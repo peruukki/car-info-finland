@@ -8,7 +8,7 @@ A little script to analyze public Finnish car registry information from the
 ```
 $ ./car-info process --CO2 96 --length 4059 --width 1780 --language en data/data.csv
 
-Cars processed: 5054745
+Vehicles processed: 5054745
 
 Cars with a known color value: 2673904/2684407 (100 %).
 Proportions for color:
