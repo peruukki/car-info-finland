@@ -1,7 +1,7 @@
 # Finnish Car Information
 
 A little script to analyze public Finnish car registry information from the
-[Finnish Transport and Communications Agency open data](https://www.traficom.fi/en/statistics-and-publications/open-data).
+[Finnish Transport and Communications Agency Traficom open data](https://tieto.traficom.fi/en/datatraficom/open-data).
 
 ## Example output
 
@@ -504,10 +504,9 @@ The normalizing logic is in [ProportionNormalizer.ts](src/normalizers/Proportion
 
 ## Setting up
 
-The car registry data is too large to include in this repository, so download it from the
-[Finnish Transport and Communications Agency](https://www.traficom.fi/en/statistics-and-publications/open-data)
-site (it's in the "Ajoneuvojen avoin data 5.4" section). You can put the file to the git-ignored `data` directory
-in this repository.
+The car registry data is too large to include in this repository, so download it from
+[Open data for vehicles](https://tieto.traficom.fi/en/datatraficom/open-data?toggle=Open%20data%20for%20vehicles).
+You can put the file to the git-ignored `data` directory in this repository.
 
 ## Building
 
